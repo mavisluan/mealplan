@@ -39,19 +39,19 @@
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 1}">
-                        <td>${day.dishes.get(0).name}</td>
+                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
                         <td><a href="/${day.name}/lunch/new"><i class="fas fa-utensils h3"></i></a></td>
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 2}">
-                        <td>${day.dishes.get(0).name}</td>
-                        <td>${day.dishes.get(1).name}</td>
+                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
+                        <td><a href="${day.dishes.get(1).url}" class="text-success">${day.dishes.get(1).name}</a></td>
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 3}">
-                        <td>${day.dishes.get(0).name}</td>
-                        <td>${day.dishes.get(1).name}</td>
-                        <td>${day.dishes.get(2).name}</td>
+                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
+                        <td><a href="${day.dishes.get(1).url}" class="text-success">${day.dishes.get(1).name}</a></td>
+                        <td><a href="${day.dishes.get(2).url}" class="text-success">${day.dishes.get(2).name}</a></td>
                     </c:when>
                     <c:otherwise>
                     </c:otherwise>

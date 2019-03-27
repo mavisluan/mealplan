@@ -51,7 +51,6 @@ public class PlansController {
     }
 
 
-//      THIS WORKS
     @RequestMapping("/{paramDay}/{paramMeal}/new")
     public String searchDish(
             @ModelAttribute("dish") Dish formDish,
@@ -66,7 +65,54 @@ public class PlansController {
         return "/dishes/new.jsp";
     };
 
+
     @RequestMapping(value="/{paramDay}/{paramMeal}/new", method = RequestMethod.POST)
+    public String processSearch(
+            @Valid @ModelAttribute("dish") Dish formDish,
+            BindingResult result,
+            @PathParam("search") String search,
+            @PathVariable("paramDay") String day,
+            @PathVariable("paramMeal") String meal,
+            Model model
+    ) throws UnirestException {
+
+        HttpResponse<JsonNode> jsonResponse =
+                Unirest.get("https://api.edamam.com/search?q={query}&app_id=0934bbd2&app_key=c5987cefac431d783a9abee6a0f5e252&from=0&to=12")
+                        .routeParam("query", search)
+                        .asJson();
+
+        Object jsonResult = jsonResponse.getBody();
+        JSONObject object1 = new JSONObject(String.format("%s", jsonResult));
+        JSONArray array1 = object1.getJSONArray("hits");
+
+        ArrayList<Dish> resultDishes = new ArrayList<Dish>();
+        JSONArray jsonArray = (JSONArray) array1;
+
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i=0;i<len;i++){
+                Dish dish = new Dish();
+
+                JSONObject jsonObj = (JSONObject) jsonArray.get(i);
+                JSONObject jsonRecipe = jsonObj.getJSONObject("recipe");
+                String imageUrl = jsonRecipe.getString("image");
+                String label = jsonRecipe.getString("label");
+                String url = jsonRecipe.getString("url");
+
+                dish.setImage(imageUrl);
+                dish.setName(label);
+                dish.setUrl(url);
+                resultDishes.add(dish);
+            }
+        }
+
+        model.addAttribute("resultDishes", resultDishes);
+//        System.out.println(dishes);
+
+        return "/dishes/new.jsp";
+    }
+
+    @RequestMapping(value="/{paramDay}/{paramMeal}/add", method = RequestMethod.POST)
     public String addDish(
             @Valid @ModelAttribute("dish") Dish formDish,
             BindingResult result,
