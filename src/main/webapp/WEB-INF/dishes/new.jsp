@@ -29,6 +29,11 @@
                         <form:input path="name" type="hidden" value="${dish.name}"/>
                         <form:input path="url" type="hidden" value="${dish.url}"/>
                         <form:input path="image" type="hidden" value="${dish.image}"/>
+
+                        <c:forEach var="ingredient" items="${dish.ingredientList}" varStatus="status">
+                            <input name="ingredientList[${status.index}].name"  type="hidden" value="${ingredient.name}" />
+                        </c:forEach>
+
                         <div class="mb-2"><a href="${dish.url}" target="_blank">${dish.name}</a></div>
                         <img src="${dish.image}" alt="${dish.name}" width="200" height="200">
                         <input type="submit" value="Add" class="btn btn-primary mt-3"/>

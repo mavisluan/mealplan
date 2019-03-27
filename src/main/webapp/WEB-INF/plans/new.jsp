@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <a href="#" class="btn btn-primary float-right" role="button">Shopping List</a>
+    <a href="/plans/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>
 
     <div class="h3 mb-4">Create a Week Plan</div>
     <table class="table">
@@ -39,19 +39,37 @@
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 1}">
-                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
+                        <td>
+                            <a href="${day.dishes.get(0).url}">${day.dishes.get(0).name}</a>
+                            <a href="/dishes/${day.dishes.get(0).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
                         <td><a href="/${day.name}/lunch/new"><i class="fas fa-utensils h3"></i></a></td>
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 2}">
-                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
-                        <td><a href="${day.dishes.get(1).url}" class="text-success">${day.dishes.get(1).name}</a></td>
+                        <td>
+                            <a href="${day.dishes.get(0).url}">${day.dishes.get(0).name}</a>
+                            <a href="/dishes/${day.dishes.get(0).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                        <td>
+                            <a href="${day.dishes.get(1).url}" >${day.dishes.get(1).name}</a>
+                            <a href="/dishes/${day.dishes.get(1).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
                         <td><a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a></td>
                     </c:when>
                     <c:when test="${day.dishes.size() == 3}">
-                        <td><a href="${day.dishes.get(0).url}" class="text-success">${day.dishes.get(0).name}</a></td>
-                        <td><a href="${day.dishes.get(1).url}" class="text-success">${day.dishes.get(1).name}</a></td>
-                        <td><a href="${day.dishes.get(2).url}" class="text-success">${day.dishes.get(2).name}</a></td>
+                        <td>
+                            <a href="${day.dishes.get(0).url}">${day.dishes.get(0).name}</a>
+                            <a href="/dishes/${day.dishes.get(0).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                        <td>
+                            <a href="${day.dishes.get(1).url}" >${day.dishes.get(1).name}</a>
+                            <a href="/dishes/${day.dishes.get(1).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                        <td>
+                            <a href="${day.dishes.get(2).url}" >${day.dishes.get(2).name}</a>
+                            <a href="/dishes/${day.dishes.get(2).id}/delete"><i class="fas fa-trash-alt"></i></a>
+                        </td>
                     </c:when>
                     <c:otherwise>
                     </c:otherwise>

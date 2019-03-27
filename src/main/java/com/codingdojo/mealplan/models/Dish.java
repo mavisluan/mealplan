@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="dishes")
@@ -33,6 +34,9 @@ public class Dish {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="day_id")
     private Day day;
+
+    @OneToMany(mappedBy="dish", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<Ingredient> ingredientList;
 
     public Dish() {
     }
@@ -105,6 +109,14 @@ public class Dish {
 
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
     }
 
     @PrePersist
