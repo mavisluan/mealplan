@@ -50,6 +50,19 @@ public class PlansController {
     @RequestMapping("/plans/new")
     public String createPlan(Model model) {
         List<Day> days = dayService.findAll();
+
+        if (dishService.findAll().size() == 0) {
+            List<Meal> meals = mealService.findAll();
+            for (int i = 0; i<days.size();i++) {
+                for (int j = 0; j < 3; j++) {
+                    Dish dish = new Dish();
+                    dish.setMeal(meals.get(j));
+                    dish.setDay(days.get(i));
+                    dishService.create(dish);
+                }
+            }
+        }
+
         model.addAttribute("days", days);
 
         return "/plans/new.jsp";
@@ -137,26 +150,40 @@ public class PlansController {
     public String addDish(
             @Valid @ModelAttribute("dish") Dish formDish,
             BindingResult result,
-            @PathVariable("paramDay") String day,
-            @PathVariable("paramMeal") String meal
+            @PathVariable("paramDay") String paramDay,
+            @PathVariable("paramMeal") String paramMeal
     ) {
         if (result.hasErrors()) {
 //            System.out.println("error");
 //            System.out.println(result.getAllErrors());
             return "/dishes/new.jsp";
         } else {
-            Dish dish = new Dish();
-            dish.setDay(dayService.findByName(day));
+            Day day = dayService.findByName(paramDay);
+            Meal meal = mealService.findByName(paramMeal);
+            Dish dish = dishService.findDayMealDish(day, meal);
+
+//            dish.setDay(dayService.findByName(day));
+//            dish.setMeal(mealService.findByName(meal));
             dish.setName(formDish.getName());
             dish.setImage(formDish.getImage());
-            dish.setMeal(mealService.findByName(meal));
             dish.setUrl(formDish.getUrl());
-            dishService.create(dish);
+            dishService.update( dish.getId(), dish);
 
             dish.setIngredientList(new ArrayList<>());
             for (int i = 0; i < formDish.getIngredientList().size(); i++) {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setName(formDish.getIngredientList().get(i).getName());
+
+                List<Ingredient> ingredientList = ingredientService.findByNameContains(ingredient.getName());
+                if (ingredientList.size() > 0) {
+                    for (Ingredient ing: ingredientList) {
+                        ing.setAmount(ing.getAmount() + 1);
+                        ingredientService.create(ing);
+                    }
+                } else {
+                    ingredient.setAmount(1);
+                }
+
                 dish.getIngredientList().add(ingredient);
                 ingredient.setDish(dish);
                 ingredientService.create(ingredient);
@@ -181,8 +208,24 @@ public class PlansController {
     @RequestMapping(value="/dishes/{dishId}/delete", method=RequestMethod.GET)
     public String destroy(
             @PathVariable("dishId") Long dishId
-    ) {
-        dishService.delete(dishId);
+            ) {
+        Dish dish = dishService.findById(dishId);
+        dish.setUrl(null);
+        dish.setImage(null);
+        dish.setName(null);
+        dish.setIngredientList(new ArrayList<>());
+        dishService.update(dishId, dish);
+
+        List<Ingredient> ingredients = ingredientService.findDishIngredients(dish);
+        for (int i = 0; i < ingredients.size(); i++) {
+            ingredientService.delete(ingredients.get(i).getId());
+        }
+
         return "redirect:/plans/new";
     }
 }
+
+// TODO: update amount of ingredients
+// TODO: create plan page
+// TODO: associate with user
+// TODO: create post function

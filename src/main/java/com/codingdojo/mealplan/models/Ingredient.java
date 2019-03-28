@@ -14,6 +14,7 @@ public class Ingredient {
     @NotEmpty(message="Name must not be empty")
     private String name;
 
+    private int amount;
 
     @Column(updatable=false)
     private Date createdAt;
@@ -27,8 +28,9 @@ public class Ingredient {
     public Ingredient() {
     }
 
-    public Ingredient(@NotEmpty(message = "Name must not be empty") String name) {
+    public Ingredient(@NotEmpty(message = "Name must not be empty") String name, int amount) {
         this.name = name;
+        this.amount = amount;
     }
 
     public Long getId() {
@@ -69,6 +71,14 @@ public class Ingredient {
 
     public void setDish(Dish dish) {
         this.dish = dish;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @PrePersist

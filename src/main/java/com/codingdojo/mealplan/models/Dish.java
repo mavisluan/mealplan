@@ -14,7 +14,7 @@ public class Dish {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message="Name must not be empty")
+//    @NotEmpty(message="Name must not be empty")
     private String name;
 
 //    @NotEmpty(message="Url must not be empty")
@@ -35,13 +35,13 @@ public class Dish {
     @JoinColumn(name="day_id")
     private Day day;
 
-    @OneToMany(mappedBy="dish", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="dish", fetch = FetchType.LAZY)
     private List<Ingredient> ingredientList;
 
     public Dish() {
     }
 
-    public Dish(@NotEmpty(message = "Name must not be empty") String name, String url, String image) {
+    public Dish(String name, String url, String image) {
         this.name = name;
         this.url = url;
         this.image = image;

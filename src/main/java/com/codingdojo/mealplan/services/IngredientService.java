@@ -26,9 +26,18 @@ public class IngredientService {
         return ingredientRepository.save(ingredient);
     }
 
+//    return ingredients by dish
+    public List<Ingredient> findDishIngredients(Dish dish) {
+        return ingredientRepository.findByDish(dish);
+    }
 
     //    delete an ingredient
     public void delete(Long id) {
         ingredientRepository.deleteById(id);
+    }
+
+
+    public List<Ingredient> findByNameContains(String name) {
+        return ingredientRepository.findByNameContaining(name);
     }
 }

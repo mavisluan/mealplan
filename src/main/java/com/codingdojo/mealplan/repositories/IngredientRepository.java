@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
     List<Ingredient> findAll();
+    List<Ingredient> findByDish(Dish dish);
+    List<Ingredient> findByNameContaining(String name);
 }

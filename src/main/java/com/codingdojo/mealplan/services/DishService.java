@@ -28,6 +28,11 @@ public class DishService {
         return dishRepository.findFirstByDayAndMeal(day, meal);
     }
 
+//    find dishes by day
+    public List<Dish> findDayDishes(Day day) {
+        return dishRepository.findByDay(day);
+    }
+
     //    creates an dish
     public Dish create(Dish dish) {
         return dishRepository.save(dish);

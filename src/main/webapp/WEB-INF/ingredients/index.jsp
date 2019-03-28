@@ -17,13 +17,15 @@
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Shopping List</th>
+                <th scope="col">Name</th>
+                <th scope="col">Amount</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="ingredient" items="${ingredients}">
                 <tr>
                     <td scope="row">${ingredient.name}</td>
+                    <td scope="row">${ingredient.amount}</td>
                 </tr>
             </c:forEach>
             </tbody>
