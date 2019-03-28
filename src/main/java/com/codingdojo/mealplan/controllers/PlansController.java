@@ -1,13 +1,7 @@
 package com.codingdojo.mealplan.controllers;
 
-import com.codingdojo.mealplan.models.Day;
-import com.codingdojo.mealplan.models.Dish;
-import com.codingdojo.mealplan.models.Ingredient;
-import com.codingdojo.mealplan.models.Meal;
-import com.codingdojo.mealplan.services.DayService;
-import com.codingdojo.mealplan.services.DishService;
-import com.codingdojo.mealplan.services.IngredientService;
-import com.codingdojo.mealplan.services.MealService;
+import com.codingdojo.mealplan.models.*;
+import com.codingdojo.mealplan.services.*;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -22,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
@@ -33,17 +28,24 @@ public class PlansController {
     private final MealService mealService;
     private final DishService dishService;
     private final IngredientService ingredientService;
+    private final UserService userService;
 
     public PlansController(DayService dayService, MealService mealService, DishService dishService,
-                           IngredientService ingredientService) {
+                           IngredientService ingredientService, UserService userService) {
         this.dayService = dayService;
         this.mealService = mealService;
         this.dishService = dishService;
         this.ingredientService = ingredientService;
+        this.userService = userService;
     }
 
     @RequestMapping("/plans")
-    public String plans(Model model) {
+    public String plans(
+            HttpSession session,
+            Model model) {
+        User user = userService.findUserById((Long) session.getAttribute("userId"));
+        model.addAttribute("user", user);
+
         return "/plans/index.jsp";
     }
 
@@ -174,15 +176,15 @@ public class PlansController {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setName(formDish.getIngredientList().get(i).getName());
 
-                List<Ingredient> ingredientList = ingredientService.findByNameContains(ingredient.getName());
-                if (ingredientList.size() > 0) {
-                    for (Ingredient ing: ingredientList) {
-                        ing.setAmount(ing.getAmount() + 1);
-                        ingredientService.create(ing);
-                    }
-                } else {
-                    ingredient.setAmount(1);
-                }
+//                List<Ingredient> ingredientList = ingredientService.findByNameContains(ingredient.getName());
+//                if (ingredientList.size() > 0) {
+//                    for (Ingredient ing: ingredientList) {
+//                        ing.setAmount(ing.getAmount() + 1);
+//                        ingredientService.create(ing);
+//                    }
+//                } else {
+//                    ingredient.setAmount(1);
+//                }
 
                 dish.getIngredientList().add(ingredient);
                 ingredient.setDish(dish);

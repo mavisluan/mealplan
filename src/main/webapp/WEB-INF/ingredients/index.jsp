@@ -10,26 +10,18 @@
 <html>
 <head>
     <title>Shopping List</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container mt-5 col-4">
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach var="ingredient" items="${ingredients}">
-                <tr>
-                    <td scope="row">${ingredient.name}</td>
-                    <td scope="row">${ingredient.amount}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+<div class="container mt-5 col-4">
+    <a href="/plans/new" class="float-right text-white p-3">Back To Plan</a>
+    <h5 class="p-3 bg-dark text-white">Shopping List</h5>
+    <ul class="list-group">
+        <c:forEach var="ingredient" items="${ingredients}">
+            <li class="list-group-item">${ingredient.name}</li>
+        </c:forEach>
+    </ul>
+</div>
 </body>
 </html>

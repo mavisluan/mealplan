@@ -44,7 +44,7 @@ public class UsersController {
         } else {
             User u = userService.registerUser(formUser);
             session.setAttribute("userId", u.getId());
-            return "redirect:/shows";
+            return "redirect:/plans";
         }
     }
 
@@ -57,7 +57,7 @@ public class UsersController {
         if (isAuthenticated) {
             User u = userService.findByEmail(email);
             session.setAttribute("userId", u.getId());
-            return "redirect:/shows";
+            return "redirect:/plans";
         } else {
             model.addAttribute("error", "Invalid Credentials. Please try again.");
             return "/users/registrationPage.jsp";
