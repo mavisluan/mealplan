@@ -3,6 +3,7 @@ package com.codingdojo.mealplan.services;
 import com.codingdojo.mealplan.models.Day;
 import com.codingdojo.mealplan.models.Dish;
 import com.codingdojo.mealplan.models.Meal;
+import com.codingdojo.mealplan.models.Plan;
 import com.codingdojo.mealplan.repositories.DishRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,12 @@ public class DishService {
         return dishRepository.findFirstByDayAndMeal(day, meal);
     }
 
-//    find dishes by day
+//    find dishes by plan
+    public List<Dish> findPlanDishes(Plan plan) {
+        return dishRepository.findByPlan(plan);
+    }
+
+    //    find dishes by day
     public List<Dish> findDayDishes(Day day) {
         return dishRepository.findByDay(day);
     }

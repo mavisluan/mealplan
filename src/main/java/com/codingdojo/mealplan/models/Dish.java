@@ -38,13 +38,13 @@ public class Dish {
     @OneToMany(mappedBy="dish", fetch = FetchType.LAZY)
     private List<Ingredient> ingredientList;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "plans_dishes",
-//            joinColumns = @JoinColumn(name = "dish_id"),
-//            inverseJoinColumns = @JoinColumn(name = "plan_id")
-//    )
-//    private List<Plan> plans;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "plans_dishes",
+            joinColumns = @JoinColumn(name = "dish_id"),
+            inverseJoinColumns = @JoinColumn(name = "plan_id")
+    )
+    private List<Plan> plans;
 
     public Dish() {
     }
@@ -127,13 +127,13 @@ public class Dish {
         this.ingredientList = ingredientList;
     }
 
-//    public List<Plan> getPlans() {
-//        return plans;
-//    }
-//
-//    public void setPlans(List<Plan> plans) {
-//        this.plans = plans;
-//    }
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
+    }
 
     @PrePersist
     protected void onCreate(){

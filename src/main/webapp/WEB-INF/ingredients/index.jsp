@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container mt-5 col-4">
-    <a href="/plans/new" class="float-right text-white p-3">Back To Plan</a>
+    <a href="/plans/${planId}/edit" class="float-right text-white p-3">Back To Plan</a>
     <h5 class="p-3 bg-dark text-white">Shopping List</h5>
     <ul class="list-group">
         <c:forEach var="ingredient" items="${ingredients}">

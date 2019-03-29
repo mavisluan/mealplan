@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -30,7 +31,8 @@ public class User {
     private Date createdAt;
     private Date updatedAt;
 
-
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    private List<Plan> plans;
 
     public User() {
     }
@@ -99,6 +101,13 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
+    }
 
     @PrePersist
     protected void onCreate(){
