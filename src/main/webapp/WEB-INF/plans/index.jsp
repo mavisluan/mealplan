@@ -20,7 +20,7 @@
 <div class="container mt-5 col-8">
     <div class="mb-5">
         <span class="h2">Welcome, ${user.name}!</span>
-        <a href="/logout" role="button" class="float-right"><span class="h4">Logout</span></a>
+        <a href="/logout" role="button" class="float-right text-dark"><span class="h4">Logout</span></a>
     </div>
     <%--<a href="/menus/new" role="button" class="btn btn-primary float-right mr-3">Post My Menu</a>--%>
     <div class="h3">My Plans</div>
@@ -52,7 +52,7 @@
         <form:input path="name" class="form-control mb-2 mr-4 col-4"/>
         <form:errors path="name" class="text-danger mb-2 mr-3"></form:errors>
         <form:input type="hidden" path="user" value="${userId}"/>
-        <button type="submit" class="btn btn-primary mb-2">Create</button>
+        <button type="submit" class="btn btn-dark mb-2">Create</button>
     </form:form>
     <div class="h3 mt-5">Communtiy Board</div>
     <ul class="list-group">

@@ -17,10 +17,18 @@
 </head>
 <body>
 <div class="container mt-5">
-    <a href="/plans/${planId}/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>
-    <a href="/plans" class="btn btn-primary float-right mr-3" role="button">Back to Plans</a>
+    <%--<a href="/plans/${planId}/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>--%>
 
-    <div class="h3 mb-4">Create a Week Plan</div>
+    <%--<a href="/plans" class="btn btn-primary float-right mr-3" role="button">Back to Plans</a>--%>
+
+    <div class="h3 mb-4">
+        Create a Week Plan
+        <div class="float-right">
+            <a href="/plans" role="button" class="h1 ml-5"><i class="fas fa-tachometer-alt"></i></a>
+            <a href="/plans/${planId}/shoppinglist" role="button" class="h1 ml-5"><i class="fas fa-shopping-cart"></i></a>
+        </div>
+
+    </div>
     <div class="container p-4">
         <div class="row h5 bg-dark text-white pt-3 pb-3">
             <div class="col"></div>
