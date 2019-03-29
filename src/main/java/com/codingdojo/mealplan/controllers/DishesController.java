@@ -152,19 +152,9 @@ public class DishesController {
             for (int i = 0; i < formDish.getIngredientList().size(); i++) {
                 Ingredient ingredient = new Ingredient();
                 ingredient.setName(formDish.getIngredientList().get(i).getName());
-
-//                List<Ingredient> ingredientList = ingredientService.findByNameContains(ingredient.getName());
-//                if (ingredientList.size() > 0) {
-//                    for (Ingredient ing: ingredientList) {
-//                        ing.setAmount(ing.getAmount() + 1);
-//                        ingredientService.create(ing);
-//                    }
-//                } else {
-//                    ingredient.setAmount(1);
-//                }
-
                 dish.getIngredientList().add(ingredient);
                 ingredient.setDish(dish);
+                ingredient.setPlan(plan);
                 ingredientService.create(ingredient);
 //                dishService.create(dish);
 

@@ -34,6 +34,9 @@ public class Plan {
     @OneToMany(mappedBy="plan", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Dish> dishes;
 
+    @OneToMany(mappedBy="plan", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
+    private List<Ingredient> ingredents;
+
     public Plan() {
     }
 
@@ -87,6 +90,14 @@ public class Plan {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public List<Ingredient> getIngredents() {
+        return ingredents;
+    }
+
+    public void setIngredents(List<Ingredient> ingredents) {
+        this.ingredents = ingredents;
     }
 
     @PrePersist

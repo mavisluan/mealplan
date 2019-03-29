@@ -24,6 +24,10 @@ public class Ingredient {
     @JoinColumn(name="dish_id")
     private Dish dish;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="plan_id")
+    private Plan plan;
+
 
     public Ingredient() {
     }
@@ -80,6 +84,14 @@ public class Ingredient {
 //    public void setAmount(int amount) {
 //        this.amount = amount;
 //    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
+    }
 
     @PrePersist
     protected void onCreate(){

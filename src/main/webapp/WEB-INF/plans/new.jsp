@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="container mt-5">
-    <a href="/plans/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>
+    <a href="/plans/${planId}/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>
     <a href="/plans" class="btn btn-primary float-right mr-3" role="button">Back to Plans</a>
 
     <div class="h3 mb-4">Create a Week Plan</div>

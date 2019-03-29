@@ -39,6 +39,8 @@
                     <a href="/plans/${plan.id}/add" role="button" class="h4 ml-3"><i class="fas fa-edit"></i></a>
                     <a href="/plans/${plan.id}/delete" role="button" class="h4 ml-3"><i class="fas fa-trash-alt"></i></a>
                     <a href="/plans/${plan.id}/share" role="button" class="h4 ml-3"><i class="fas fa-share-square"></i></a>
+                    <a href="/plans/${planId}/shoppinglist" role="button" class="h4 ml-3"><i class="fas fa-shopping-cart"></i></a>
+
                 </td>
             </tr>
         </c:forEach>

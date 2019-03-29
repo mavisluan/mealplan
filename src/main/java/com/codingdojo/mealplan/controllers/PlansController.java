@@ -119,10 +119,13 @@ public class PlansController {
     }
 
 
-    @RequestMapping("/plans/shoppinglist")
-    public String showList(Model model) {
-       List<Ingredient> allIngredients = ingredientService.findAll();
-       model.addAttribute("ingredients", allIngredients);
+    @RequestMapping("/plans/{planId}/shoppinglist")
+    public String showList(
+            @PathVariable("planId") Long planId,
+            Model model) {
+        Plan plan = planService.findById(planId);
+       List<Ingredient> ingredients = plan.getIngredents();
+       model.addAttribute("ingredients", ingredients);
 
         return "/ingredients/index.jsp";
     }
