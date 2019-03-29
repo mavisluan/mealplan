@@ -175,7 +175,8 @@ public class DishesController {
 
     @RequestMapping(value="/dishes/{dishId}/delete", method=RequestMethod.GET)
     public String destroy(
-            @PathVariable("dishId") Long dishId
+            @PathVariable("dishId") Long dishId,
+            HttpSession session
     ) {
         Dish dish = dishService.findById(dishId);
         dish.setUrl(null);
@@ -189,6 +190,8 @@ public class DishesController {
             ingredientService.delete(ingredients.get(i).getId());
         }
 
-        return "redirect:/plans/new";
+        Long planId = (Long) session.getAttribute("planId");
+
+        return "redirect:/plans/" + planId + "/edit";
     }
 }

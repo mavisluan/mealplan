@@ -81,7 +81,7 @@ public class PlansController {
         List<Dish> dishes = plan.getDishes();
         System.out.println(dishes);
 
-        if (dishService.findAll().size() == 0) {
+        if (dishes.size() == 0) {
             List<Meal> meals = mealService.findAll();
             for (int i = 0; i<days.size();i++) {
                 for (int j = 0; j < 3; j++) {
