@@ -35,6 +35,16 @@ public class DishService {
         return dishRepository.findByDay(day);
     }
 
+//    find dishes by plan
+    public List<Dish> findByPlan(Plan plan) {
+        return dishRepository.findByPlan(plan);
+    }
+
+//    find one dish by plan, day and meal
+    public Dish findPlanDayMeal(Plan plan, Day day, Meal meal) {
+        return dishRepository.findFirstByPlanAndDayAndMeal(plan, day, meal);
+    }
+
     //    creates an dish
     public Dish create(Dish dish) {
         return dishRepository.save(dish);

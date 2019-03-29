@@ -63,44 +63,60 @@ public class PlansController {
 
             return "/plans/index.jsp";
         } else {
-
             planService.create(formPlan);
+
             return "redirect:/plans";
         }
     }
 
-
-    @RequestMapping("/plans/{planId}/edit")
+    @RequestMapping("/plans/{planId}/add")
     public String createDishes(
             @PathVariable("planId") Long planId,
             HttpSession session,
             Model model
-            ) {
+    ) {
         List<Day> days = dayService.findAll();
         Plan plan = planService.findById(planId);
-        List<Dish> dishes = plan.getDishes();
-        System.out.println(dishes);
+        List<Dish> dishes = dishService.findByPlan(plan);
 
         if (dishes.size() == 0) {
             List<Meal> meals = mealService.findAll();
             for (int i = 0; i<days.size();i++) {
                 for (int j = 0; j < 3; j++) {
                     Dish dish = new Dish();
-                    dish.setMeal(meals.get(j));
                     dish.setDay(days.get(i));
+                    dish.setMeal(meals.get(j));
+                    dish.setPlan(plan);
                     dishService.create(dish);
                 }
             }
         }
 
+        session.setAttribute("planId", planId);
+//        model.addAttribute("days", days);
+//        model.addAttribute("dishes", dishes);
+
+        return "redirect:/plans/" + planId + "/edit";
+    }
+
+
+    @RequestMapping("/plans/{planId}/edit")
+    public String editDishes(
+            @PathVariable("planId") Long planId,
+            HttpSession session,
+            Model model
+            ) {
+        List<Day> days = dayService.findAll();
+        Plan plan = planService.findById(planId);
+        List<Dish> dishes = dishService.findByPlan(plan);
 
         session.setAttribute("planId", planId);
+
         model.addAttribute("days", days);
         model.addAttribute("dishes", dishes);
 
         return "/plans/new.jsp";
     }
-
 
 
     @RequestMapping("/plans/shoppinglist")
@@ -111,9 +127,20 @@ public class PlansController {
         return "/ingredients/index.jsp";
     }
 
-}
 
-// TODO: update amount of ingredients
-// TODO: create plan page
-// TODO: associate with user
-// TODO: create post function
+    @RequestMapping("/plans/{planId}/delete")
+    public String deleteDishes(
+            @PathVariable("planId") Long planId,
+            HttpSession session,
+            Model model
+    ) {
+        User user = userService.findUserById((Long) session.getAttribute("userId"));
+        List plans = planService.findByUser(user);
+
+        planService.delete(planId);
+
+        session.setAttribute("plans", plans);
+
+        return "redirect:/plans";
+    }
+}

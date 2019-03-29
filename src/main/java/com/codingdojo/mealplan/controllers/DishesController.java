@@ -62,6 +62,7 @@ public class DishesController {
             @PathParam("search") String search,
             @PathVariable("paramDay") String day,
             @PathVariable("paramMeal") String meal,
+            HttpSession session,
             Model model
     ) throws UnirestException {
 
@@ -72,7 +73,7 @@ public class DishesController {
                         .asJson();
 
         Object jsonResult = jsonResponse.getBody();
-
+        Plan plan = planService.findById((Long)session.getAttribute("planId"));
         JSONObject object1 = new JSONObject(String.format("%s", jsonResult));
         JSONArray array1 = object1.getJSONArray("hits");
 
@@ -92,6 +93,7 @@ public class DishesController {
                 dish.setImage(imageUrl);
                 dish.setName(label);
                 dish.setUrl(url);
+                dish.setPlan(plan);
 //              initiate ingredientList
                 dish.setIngredientList(new ArrayList<>());
 
@@ -134,13 +136,13 @@ public class DishesController {
         } else {
             Day day = dayService.findByName(paramDay);
             Meal meal = mealService.findByName(paramMeal);
-            Dish dish = dishService.findDayMealDish(day, meal);
             Long planId = (Long) session.getAttribute("planId");
             Plan plan = planService.findById(planId);
-            dish.setPlans(new ArrayList<>());
-            dish.getPlans().add(plan);
-//            dish.setDay(dayService.findByName(day));
-//            dish.setMeal(mealService.findByName(meal));
+            Dish dish = dishService.findPlanDayMeal(plan, day, meal);
+
+            dish.setPlan(plan);
+            dish.setDay(day);
+            dish.setMeal(meal);
             dish.setName(formDish.getName());
             dish.setImage(formDish.getImage());
             dish.setUrl(formDish.getUrl());

@@ -13,5 +13,7 @@ import java.util.List;
 public interface DishRepository extends CrudRepository<Dish, Long> {
     List<Dish> findAll();
     Dish findFirstByDayAndMeal(Day day, Meal meal);
+    Dish findFirstByPlanAndDayAndMeal(Plan plan, Day day, Meal meal);
+    List<Dish> findByPlan(Plan plan);
     List<Dish> findByDay(Day day);
 }

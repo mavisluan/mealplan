@@ -31,48 +31,53 @@
         <c:forEach items="${days}" var="day">
             <div class="row mt-3">
                 <div class="col-3 h5"><c:out value="${day.name}"/></div>
-                <div class="col-3">
-                    <div class="container">
-                        <p><a href="${day.dishes.get(0).url}">${day.dishes.get(0).name}</a></p>
-                        <c:choose>
-                            <c:when test="${day.dishes.get(0).name == null}">
+                <c:forEach items="${dishes}" var="dish">
+                    <c:choose>
+                        <c:when test="${dish.day == day && dish.meal.name == 'breakfast' && dish.name == null}">
+                            <div class="col-3">
                                 <a href="/${day.name}/breakfast/new"><i class="fas fa-utensils h3"></i></a>
-                            </c:when>
-                            <c:otherwise>
-                                <img src="${day.dishes.get(0).image}" width="100">
-                                <a href="/dishes/${day.dishes.get(0).id}/delete" class="ml-3"><i class="fas fa-trash-alt"></i></a>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="container">
-                    <p><a href="${day.dishes.get(1).url}">${day.dishes.get(1).name}</a></p>
-                    <c:choose>
-                        <c:when test="${day.dishes.get(1).name == null}">
-                            <a href="/${day.name}/lunch/new"><i class="fas fa-utensils h3"></i></a>
+                            </div>
                         </c:when>
-                        <c:otherwise>
-                            <img src="${day.dishes.get(1).image}" width="100">
-                            <a href="/dishes/${day.dishes.get(1).id}/delete" class="ml-3"><i class="fas fa-trash-alt"></i></a>
-                        </c:otherwise>
-                    </c:choose>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="container">
-                    <p><a href="${day.dishes.get(2).url}">${day.dishes.get(2).name}</a></p>
-                    <c:choose>
-                        <c:when test="${day.dishes.get(2).name == null}">
-                            <a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a>
+                        <c:when test="${dish.day == day && dish.meal.name == 'breakfast' && dish.name != null}">
+                            <div class="col-3">
+                                <p><a href="${dish.url}">${dish.name}</a></p>
+                                <img src="${dish.image}" width="100">
+                                <a href="/dishes/${dish.id}/delete" class="ml-3"><i
+                                        class="fas fa-trash-alt"></i></a>
+                            </div>
                         </c:when>
-                        <c:otherwise>
-                            <img src="${day.dishes.get(2).image}" width="100">
-                            <a href="/dishes/${day.dishes.get(2).id}/delete" class="ml-3"><i class="fas fa-trash-alt"></i></a>
-                        </c:otherwise>
                     </c:choose>
-                    </div>
-                </div>
+                    <c:choose>
+                        <c:when test="${dish.day == day && dish.meal.name == 'lunch' && dish.name == null}">
+                            <div class="col-3">
+                                <a href="/${day.name}/lunch/new"><i class="fas fa-utensils h3"></i></a>
+                            </div>
+                        </c:when>
+                        <c:when test="${dish.day == day && dish.meal.name == 'lunch' && dish.name != null}">
+                            <div class="col-3">
+                                <p><a href="${dish.url}">${dish.name}</a></p>
+                                <img src="${dish.image}" width="100">
+                                <a href="/dishes/${dish.id}/delete" class="ml-3"><i
+                                        class="fas fa-trash-alt"></i></a>
+                            </div>
+                        </c:when>
+                    </c:choose>
+                    <c:choose>
+                        <c:when test="${dish.day == day && dish.meal.name == 'dinner' && dish.name == null}">
+                            <div class="col-3">
+                                <a href="/${day.name}/dinner/new"><i class="fas fa-utensils h3"></i></a>
+                            </div>
+                        </c:when>
+                        <c:when test="${dish.day == day && dish.meal.name == 'dinner' && dish.name != null}">
+                            <div class="col-3">
+                                <p><a href="${dish.url}">${dish.name}</a></p>
+                                <img src="${dish.image}" width="100">
+                                <a href="/dishes/${dish.id}/delete" class="ml-3"><i
+                                        class="fas fa-trash-alt"></i></a>
+                            </div>
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
             </div>
         </c:forEach>
     </div>

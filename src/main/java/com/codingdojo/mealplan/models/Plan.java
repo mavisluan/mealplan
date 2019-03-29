@@ -23,12 +23,15 @@ public class Plan {
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "plans_dishes",
-            joinColumns = @JoinColumn(name = "plan_id"),
-            inverseJoinColumns = @JoinColumn(name = "dish_id")
-    )
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "plans_dishes",
+//            joinColumns = @JoinColumn(name = "plan_id"),
+//            inverseJoinColumns = @JoinColumn(name = "dish_id")
+//    )
+//    private List<Dish> dishes;
+
+    @OneToMany(mappedBy="plan", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.PERSIST)
     private List<Dish> dishes;
 
     public Plan() {
