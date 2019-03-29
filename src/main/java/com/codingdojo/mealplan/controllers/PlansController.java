@@ -77,6 +77,9 @@ public class PlansController {
             Model model
             ) {
         List<Day> days = dayService.findAll();
+        Plan plan = planService.findById(planId);
+        List<Dish> dishes = plan.getDishes();
+        System.out.println(dishes);
 
         if (dishService.findAll().size() == 0) {
             List<Meal> meals = mealService.findAll();
@@ -91,9 +94,9 @@ public class PlansController {
         }
 
 
-
         session.setAttribute("planId", planId);
         model.addAttribute("days", days);
+        model.addAttribute("dishes", dishes);
 
         return "/plans/new.jsp";
     }

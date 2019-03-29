@@ -29,7 +29,7 @@ public class Plan {
             joinColumns = @JoinColumn(name = "plan_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
-    private List<Plan> plans;
+    private List<Dish> dishes;
 
     public Plan() {
     }
@@ -78,14 +78,13 @@ public class Plan {
         this.user = user;
     }
 
-    public List<Plan> getPlans() {
-        return plans;
+    public List<Dish> getDishes() {
+        return dishes;
     }
 
-    public void setPlans(List<Plan> plans) {
-        this.plans = plans;
+    public void setDishes(List<Dish> dishes) {
+        this.dishes = dishes;
     }
-
 
     @PrePersist
     protected void onCreate(){

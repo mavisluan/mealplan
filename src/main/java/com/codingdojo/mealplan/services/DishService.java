@@ -29,10 +29,6 @@ public class DishService {
         return dishRepository.findFirstByDayAndMeal(day, meal);
     }
 
-//    find dishes by plan
-    public List<Dish> findPlanDishes(Plan plan) {
-        return dishRepository.findByPlan(plan);
-    }
 
     //    find dishes by day
     public List<Dish> findDayDishes(Day day) {
