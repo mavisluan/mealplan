@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="dishes")
@@ -13,7 +14,7 @@ public class Dish {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message="Name must not be empty")
+//    @NotEmpty(message="Name must not be empty")
     private String name;
 
 //    @NotEmpty(message="Url must not be empty")
@@ -34,10 +35,25 @@ public class Dish {
     @JoinColumn(name="day_id")
     private Day day;
 
+    @OneToMany(mappedBy="dish", fetch = FetchType.LAZY)
+    private List<Ingredient> ingredientList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="plan_id")
+    private Plan plan;
+
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "plans_dishes",
+//            joinColumns = @JoinColumn(name = "dish_id"),
+//            inverseJoinColumns = @JoinColumn(name = "plan_id")
+//    )
+//    private List<Plan> plans;
+
     public Dish() {
     }
 
-    public Dish(@NotEmpty(message = "Name must not be empty") String name, String url, String image) {
+    public Dish(String name, String url, String image) {
         this.name = name;
         this.url = url;
         this.image = image;
@@ -105,6 +121,31 @@ public class Dish {
 
     public void setDay(Day day) {
         this.day = day;
+    }
+
+    public List<Ingredient> getIngredientList() {
+        return ingredientList;
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
+        this.ingredientList = ingredientList;
+    }
+
+//    public List<Plan> getPlans() {
+//        return plans;
+//    }
+//
+//    public void setPlans(List<Plan> plans) {
+//        this.plans = plans;
+//    }
+
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 
     @PrePersist

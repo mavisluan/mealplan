@@ -1,6 +1,7 @@
 package com.codingdojo.mealplan.services;
 
 import com.codingdojo.mealplan.models.Day;
+import com.codingdojo.mealplan.models.Dish;
 import com.codingdojo.mealplan.repositories.DayRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,11 @@ public class DayService {
 //    return all the items
     public List<Day> findAll() {
         return dayRepository.findAll();
+    }
+
+//    create Day
+     public Day create(Day day) {
+        return dayRepository.save(day);
     }
 
     public Day findByName(String name) {

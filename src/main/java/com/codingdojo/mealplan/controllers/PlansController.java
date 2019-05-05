@@ -1,17 +1,7 @@
 package com.codingdojo.mealplan.controllers;
 
-import com.codingdojo.mealplan.models.Day;
-import com.codingdojo.mealplan.models.Dish;
-import com.codingdojo.mealplan.models.Meal;
-import com.codingdojo.mealplan.services.DayService;
-import com.codingdojo.mealplan.services.DishService;
-import com.codingdojo.mealplan.services.MealService;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.codingdojo.mealplan.models.*;
+import com.codingdojo.mealplan.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,9 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,61 +19,131 @@ public class PlansController {
     private final DayService dayService;
     private final MealService mealService;
     private final DishService dishService;
+    private final IngredientService ingredientService;
+    private final UserService userService;
+    private final PlanService planService;
 
-    public PlansController(DayService dayService, MealService mealService, DishService dishService) {
+    public PlansController(DayService dayService, MealService mealService, DishService dishService,
+                           IngredientService ingredientService, UserService userService, PlanService planService) {
         this.dayService = dayService;
         this.mealService = mealService;
         this.dishService = dishService;
+        this.ingredientService = ingredientService;
+        this.userService = userService;
+        this.planService = planService;
     }
 
     @RequestMapping("/plans")
-    public String plans(Model model) {
-        return "/plans/index.jsp";
+    public String plans(
+            @ModelAttribute("plan") Plan formPlan,
+            BindingResult result,
+            HttpSession session,
+            Model model) {
+
+            User user = userService.findUserById((Long) session.getAttribute("userId"));
+            List plans = planService.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("plans", plans);
+
+            return "/plans/index.jsp";
     }
 
-    @RequestMapping("/plans/new")
-    public String createPlan(Model model) {
+    @RequestMapping(value="/plans", method = RequestMethod.POST)
+    public String createPlan(
+            @Valid @ModelAttribute("plan") Plan formPlan,
+            BindingResult result,
+            HttpSession session,
+            Model model) {
+
+        if (result.hasErrors()) {
+            User user = userService.findUserById((Long) session.getAttribute("userId"));
+            List plans = planService.findByUser(user);
+            model.addAttribute("user", user);
+            model.addAttribute("plans", plans);
+
+            return "/plans/index.jsp";
+        } else {
+            planService.create(formPlan);
+
+            return "redirect:/plans";
+        }
+    }
+
+    @RequestMapping("/plans/{planId}/add")
+    public String createDishes(
+            @PathVariable("planId") Long planId,
+            HttpSession session,
+            Model model
+    ) {
         List<Day> days = dayService.findAll();
+        Plan plan = planService.findById(planId);
+        List<Dish> dishes = dishService.findByPlan(plan);
+
+        if (dishes.size() == 0) {
+            List<Meal> meals = mealService.findAll();
+            for (int i = 0; i<days.size();i++) {
+                for (int j = 0; j < 3; j++) {
+                    Dish dish = new Dish();
+                    dish.setDay(days.get(i));
+                    dish.setMeal(meals.get(j));
+                    dish.setPlan(plan);
+                    dishService.create(dish);
+                }
+            }
+        }
+
+        session.setAttribute("planId", planId);
+//        model.addAttribute("days", days);
+//        model.addAttribute("dishes", dishes);
+
+        return "redirect:/plans/" + planId + "/edit";
+    }
+
+
+    @RequestMapping("/plans/{planId}/edit")
+    public String editDishes(
+            @PathVariable("planId") Long planId,
+            HttpSession session,
+            Model model
+            ) {
+        List<Day> days = dayService.findAll();
+        Plan plan = planService.findById(planId);
+        List<Dish> dishes = dishService.findByPlan(plan);
+
+        session.setAttribute("planId", planId);
+
         model.addAttribute("days", days);
+        model.addAttribute("dishes", dishes);
 
         return "/plans/new.jsp";
     }
 
 
-//      THIS WORKS
-    @RequestMapping("/{paramDay}/{paramMeal}/new")
-    public String searchDish(
-            @ModelAttribute("dish") Dish formDish,
-            BindingResult result,
-            @PathVariable("paramDay") String day,
-            @PathVariable("paramMeal") String meal,
+    @RequestMapping("/plans/{planId}/shoppinglist")
+    public String showList(
+            @PathVariable("planId") Long planId,
+            Model model) {
+        Plan plan = planService.findById(planId);
+       List<Ingredient> ingredients = plan.getIngredents();
+       model.addAttribute("ingredients", ingredients);
+
+        return "/ingredients/index.jsp";
+    }
+
+
+    @RequestMapping("/plans/{planId}/delete")
+    public String deleteDishes(
+            @PathVariable("planId") Long planId,
+            HttpSession session,
             Model model
-            ) {
-        model.addAttribute("day", day);
-        model.addAttribute("meal", meal);
-
-        return "/dishes/new.jsp";
-    };
-
-    @RequestMapping(value="/{paramDay}/{paramMeal}/new", method = RequestMethod.POST)
-    public String addDish(
-            @Valid @ModelAttribute("dish") Dish formDish,
-            BindingResult result,
-            @PathVariable("paramDay") String day,
-            @PathVariable("paramMeal") String meal
     ) {
-        if (result.hasErrors()) {
-            return "/dishes/new.jsp";
-        } else {
-            Dish dish = new Dish();
-            dish.setDay(dayService.findByName(day));
-            dish.setName(formDish.getName());
-            dish.setImage(formDish.getImage());
-            dish.setMeal(mealService.findByName(meal));
-            dish.setUrl(formDish.getUrl());
+        User user = userService.findUserById((Long) session.getAttribute("userId"));
+        List plans = planService.findByUser(user);
 
-            dishService.create(dish);
-            return "redirect:/plans/new";
-        }
+        planService.delete(planId);
+
+        session.setAttribute("plans", plans);
+
+        return "redirect:/plans";
     }
 }
