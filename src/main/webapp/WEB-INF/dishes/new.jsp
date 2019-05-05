@@ -15,7 +15,7 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-<div class="container mt-5 col-8">
+<div class="container mt-5 col-8" >
     <h3 class="mt-3">Search dishes for <span class="text-primary">${paramDay} ${paramMeal}</span></h3>
     <form action="/${paramDay}/${paramMeal}/new" method="post" class="form-inline mt-4">
         <input class="form-control" type="text" name="search" placeholder="ingredient">

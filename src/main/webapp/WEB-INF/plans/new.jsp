@@ -16,6 +16,7 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
+
 <div class="container mt-5">
     <%--<a href="/plans/${planId}/shoppinglist" class="btn btn-primary float-right" role="button">Shopping List</a>--%>
 

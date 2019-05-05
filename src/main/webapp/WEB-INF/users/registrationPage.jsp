@@ -18,10 +18,15 @@
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-<div class="container mt-5">
-    <div class="d-inline-block p-2 align-top col-5">
+<div class="jumbotron jumbotron-fluid" style="background-image: url('/images/food.jpg'); background-size: cover; ">
+    <div class="container">
+        <h1 class="display-4 text-white text-center border">Plan ahead, Eat the best!</h1>
+    </div>
+</div>
+<div class="container mt-5" >
+    <div class="d-inline-block p-2 align-top col-5" >
         <h1>Registration</h1>
-        <form:form method="POST" action="/" modelAttribute="user" class="mt-5">
+        <form:form method="POST" action="/" modelAttribute="user" class="mt-5" >
             <p class="form-group row">
                 <form:label path="name" class="col-sm-3 col-form-label">Name:</form:label>
                     <form:input path="name" class="form-control col-sm-9"/>

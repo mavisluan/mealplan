@@ -17,35 +17,68 @@
           integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
 <body>
-<div class="container mt-5 col-8">
-    <div class="mb-5">
-        <span class="h2">Welcome, ${user.name}!</span>
-        <a href="/logout" role="button" class="float-right text-dark"><span class="h4">Logout</span></a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Welcome, ${user.name}!</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <%--<li class="nav-item">--%>
+                <%--<a class="nav-link" href="#">Link</a>--%>
+            <%--</li>--%>
+            <li class="nav-item float-right">
+                <a class="nav-link" href="/logout" >Logout</a>
+            </li>
+        </ul>
     </div>
-    <%--<a href="/menus/new" role="button" class="btn btn-primary float-right mr-3">Post My Menu</a>--%>
-    <div class="h3">My Plans</div>
-    <table class="table mt-3">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Plan</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
+</nav>
+<div class="jumbotron jumbotron-fluid">
+    <div class="container" >
+        <h1 class="display-4 text-dark mb-5">My Plans</h1>
+        <div class="row ml-2">
         <c:forEach var="plan" items="${plans}">
-            <tr>
-                <td>${plan.name}</td>
-                <td>
+                <div class="col-2 h3">${plan.name}</div>
+                <div class="col-6">
                     <a href="/plans/${plan.id}/add" role="button" class="h4 ml-3"><i class="fas fa-edit"></i></a>
                     <a href="/plans/${plan.id}/delete" role="button" class="h4 ml-3"><i class="fas fa-trash-alt"></i></a>
                     <a href="/plans/${plan.id}/share" role="button" class="h4 ml-3"><i class="fas fa-share-square"></i></a>
                     <a href="/plans/${planId}/shoppinglist" role="button" class="h4 ml-3"><i class="fas fa-shopping-cart"></i></a>
 
-                </td>
-            </tr>
+                </div>
         </c:forEach>
-        </tbody>
-    </table>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 col-8" >
+    <%--<a href="/menus/new" role="button" class="btn btn-primary float-right mr-3">Post My Menu</a>--%>
+    <%--<div class="h3">My Plans</div>--%>
+    <%--<table class="table mt-3">--%>
+        <%--<thead class="thead-light">--%>
+        <%--<tr>--%>
+            <%--<th scope="col">Plan</th>--%>
+            <%--<th scope="col">Action</th>--%>
+        <%--</tr>--%>
+        <%--</thead>--%>
+        <%--<tbody>--%>
+        <%--<c:forEach var="plan" items="${plans}">--%>
+            <%--<tr>--%>
+                <%--<td>${plan.name}</td>--%>
+                <%--<td>--%>
+                    <%--<a href="/plans/${plan.id}/add" role="button" class="h4 ml-3"><i class="fas fa-edit"></i></a>--%>
+                    <%--<a href="/plans/${plan.id}/delete" role="button" class="h4 ml-3"><i class="fas fa-trash-alt"></i></a>--%>
+                    <%--<a href="/plans/${plan.id}/share" role="button" class="h4 ml-3"><i class="fas fa-share-square"></i></a>--%>
+                    <%--<a href="/plans/${planId}/shoppinglist" role="button" class="h4 ml-3"><i class="fas fa-shopping-cart"></i></a>--%>
+
+                <%--</td>--%>
+            <%--</tr>--%>
+        <%--</c:forEach>--%>
+        <%--</tbody>--%>
+    <%--</table>--%>
 
     <form:form method="POST" action="/plans" modelAttribute="plan" class="form-inline mt-5">
         <form:label path="name"><span class="h3 mr-4">New Plan</span></form:label>
